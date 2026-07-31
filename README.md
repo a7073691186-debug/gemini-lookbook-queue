@@ -6,7 +6,7 @@
 
 ## Быстрый старт — 2 минуты
 
-1. Скачайте [ZIP](../../archive/refs/heads/main.zip) и распакуйте его.
+1. Скачайте [ZIP](https://github.com/a7073691186-debug/gemini-lookbook-queue/releases/download/v0.1.0/gemini-lookbook-queue-v0.1.0.zip) и распакуйте его.
 2. Откройте `chrome://extensions`.
 3. Включите **Режим разработчика**.
 4. Нажмите **Загрузить распакованное расширение** и выберите папку проекта с `manifest.json`.
