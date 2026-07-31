@@ -1,0 +1,16 @@
+:root { color-scheme: dark; font: 14px/1.45 system-ui, sans-serif; }
+body { width: 390px; margin: 0; background: #171719; color: #f3f1eb; }
+main { padding: 16px; }
+h1 { margin: 0 0 6px; font-size: 20px; }
+h2 { margin: 8px 0; font-size: 16px; color: #edc77a; }
+.hint, .notes, #status { color: #c8c5bd; font-size: 12px; }
+label { display: block; margin: 14px 0 5px; font-size: 12px; }
+textarea { box-sizing: border-box; width: 100%; min-height: 150px; resize: vertical; border: 1px solid #4a4740; border-radius: 8px; padding: 9px; background: #242321; color: inherit; font: 12px/1.4 ui-monospace, monospace; }
+.row { display: flex; gap: 8px; margin-top: 9px; }
+button { cursor: pointer; border: 1px solid #68635a; border-radius: 7px; padding: 8px 10px; background: #302e2a; color: #f3f1eb; }
+button.primary { background: #dba746; color: #201b10; border-color: #f0c977; font-weight: 650; }
+button.danger { margin-left: auto; color: #ffbbb7; }
+#current { margin-top: 16px; padding-top: 10px; border-top: 1px solid #403d37; }
+.counter { color: #a9a49a; font-size: 12px; }
+pre { max-height: 160px; overflow: auto; white-space: pre-wrap; word-break: break-word; padding: 9px; border-radius: 7px; background: #242321; font: 12px/1.4 ui-monospace, monospace; }
+code { color: #edc77a; }

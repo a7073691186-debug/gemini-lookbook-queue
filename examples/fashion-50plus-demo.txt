@@ -1,0 +1,5 @@
+# Пример: Fashion 50+ — осенняя капсула
+# slug | prompt | negative | notes
+001_city_walk_hero | Original editorial full-body lookbook photo of a stylish fictional 58-year-old woman in a camel wool coat, cream knit, dark straight-leg trousers and leather loafers; confident natural posture, autumn city street, soft daylight, premium magazine composition, vertical 9:16 | text, logo, watermark, distorted hands, extra fingers, duplicate accessories | Hero for Shorts; verify product cards separately
+002_city_walk_detail | Editorial waist-up fashion detail of the same fictional 58-year-old woman, camel coat over cream knit, visible wool texture and refined jewelry, soft city daylight, vertical 9:16 | text, logo, watermark, distorted hands, duplicate jewelry | Detail B-roll
+003_city_walk_wide | Editorial full-body lookbook of a fictional 58-year-old woman in a camel coat, cream knit, dark straight-leg trousers and leather loafers, elegant autumn city context, horizontal 16:9 | text, logo, watermark, distorted hands, extra limbs | YouTube long-form insert

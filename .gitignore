@@ -1,0 +1,11 @@
+# Dependencies
+node_modules/
+.DS_Store
+*.crx
+*.pem
+# Chrome profile/session data
+Default/
+Profile */
+Cookies
+Login Data
+Local State

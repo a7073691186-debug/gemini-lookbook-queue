@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gemini Lookbook Queue</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <main>
+    <h1>Lookbook Queue</h1>
+    <p class="hint">Локальная очередь промтов. Генерацию в Gemini подтверждает и запускает человек.</p>
+
+    <label for="queueInput">Строки: <code>slug | prompt | negative | notes</code></label>
+    <textarea id="queueInput" spellcheck="false" placeholder="001_city_walk | Editorial full-body lookbook... | logo, text, distorted hands | beige capsule"></textarea>
+    <div class="row">
+      <button id="loadQueue" class="primary">Загрузить очередь</button>
+      <button id="clearQueue" class="danger">Очистить</button>
+    </div>
+
+    <section id="current" hidden>
+      <div class="counter" id="counter"></div>
+      <h2 id="slug"></h2>
+      <pre id="prompt"></pre>
+      <p id="notes" class="notes"></p>
+      <div class="row">
+        <button id="copyPrompt" class="primary">Копировать промт</button>
+        <button id="openGemini">Открыть Gemini</button>
+        <button id="skip">Пропустить</button>
+      </div>
+    </section>
+
+    <p id="status" role="status" aria-live="polite"></p>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
