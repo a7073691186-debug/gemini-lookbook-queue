@@ -1,0 +1,817 @@
+/* ========================================
+   Gemini 批量作图插件 — 侧边栏样式
+   ======================================== */
+
+/* 侧边栏容器 */
+#gemini-auto-sidebar {
+  --sidebar-width: 340px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: var(--sidebar-width);
+  background-color: #1a1a2e;
+  border-left: 1px solid rgba(255,255,255,0.08);
+  box-shadow: -4px 0 20px rgba(0,0,0,0.3);
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  transition: transform 0.3s ease;
+  transform: translateX(0);
+  color: #e0e0e0;
+  overflow-y: auto;
+}
+
+/* 页面内容缩进，不被侧边栏遮挡 */
+html.gemini-sidebar-open {
+  width: calc(100% - var(--sidebar-width, 340px)) !important;
+  overflow-x: hidden !important;
+  transition: width 0.3s ease;
+}
+
+/* 拖拽调整宽度的手柄 */
+.gemini-resize-handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 1000000;
+  transition: background 0.2s;
+}
+.gemini-resize-handle:hover,
+.gemini-resize-handle.active {
+  background: rgba(66, 133, 244, 0.5);
+}
+
+/* 设置项 */
+.gemini-setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.gemini-setting-row label {
+  font-size: 11px;
+  color: #aaa;
+}
+.gemini-setting-number {
+  width: 50px;
+  padding: 4px 6px;
+  background: #2a2a3e;
+  color: #e0e0e0;
+  border: 1px solid #444;
+  border-radius: 4px;
+  font-size: 12px;
+  text-align: center;
+}
+.gemini-setting-number:focus {
+  outline: none;
+  border-color: #1e88e5;
+}
+
+/* 头部区域 */
+.gemini-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.gemini-sidebar-title {
+  font-weight: 700;
+  font-size: 16px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gemini-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gemini-link-btn {
+  background: rgba(66, 133, 244, 0.15);
+  border: 1px solid rgba(66, 133, 244, 0.3);
+  color: #8ab4f8;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.gemini-link-btn:hover {
+  background: rgba(66, 133, 244, 0.3);
+  color: #aecbfa;
+}
+
+/* 风格多选下拉框 */
+.gemini-style-select-wrapper {
+  position: relative;
+}
+
+.gemini-style-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 280px;
+  max-height: 320px;
+  background: #1e1e3a;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  z-index: 10;
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.gemini-style-search {
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.05);
+  color: #e0e0e0;
+  font-size: 12px;
+  outline: none;
+  box-sizing: border-box;
+}
+.gemini-style-search::placeholder {
+  color: #666;
+}
+.gemini-style-search:focus {
+  background: rgba(255,255,255,0.08);
+}
+
+.gemini-style-options {
+  overflow-y: auto;
+  max-height: 260px;
+  padding: 4px 0;
+}
+.gemini-style-options::-webkit-scrollbar {
+  width: 4px;
+}
+.gemini-style-options::-webkit-scrollbar-track {
+  background: transparent;
+}
+.gemini-style-options::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.15);
+  border-radius: 2px;
+}
+
+.gemini-style-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #ccc;
+  transition: background 0.15s;
+  user-select: none;
+}
+.gemini-style-option:hover {
+  background: rgba(255,255,255,0.06);
+}
+.gemini-style-option.selected {
+  background: rgba(66, 133, 244, 0.12);
+  color: #8ab4f8;
+}
+
+.gemini-style-option input[type="checkbox"] {
+  accent-color: #4285f4;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.gemini-style-option span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gemini-collapse-btn {
+  border: none;
+  background: rgba(255,255,255,0.06);
+  cursor: pointer;
+  color: #aaa;
+  font-size: 13px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.gemini-collapse-btn:hover {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+
+/* 标签文字 */
+.gemini-label {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+/* 前缀/后缀输入框 */
+.gemini-input-field {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 13px;
+  background: rgba(255,255,255,0.05);
+  color: #e0e0e0;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 10px;
+}
+.gemini-input-field:focus {
+  border-color: rgba(66, 133, 244, 0.5);
+}
+.gemini-input-field::placeholder {
+  color: #555;
+}
+
+/* 提示词文本框 */
+#gemini-prompt-input {
+  width: 100%;
+  flex-grow: 1;
+  min-height: 120px;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  resize: none;
+  box-sizing: border-box;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+  background: rgba(255,255,255,0.05);
+  color: #e0e0e0;
+  outline: none;
+  transition: border-color 0.2s;
+}
+#gemini-prompt-input:focus {
+  border-color: rgba(66, 133, 244, 0.5);
+}
+#gemini-prompt-input::placeholder {
+  color: #555;
+}
+#gemini-prompt-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 进度条区域 */
+.gemini-progress-container {
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+
+.gemini-progress-bg {
+  width: 100%;
+  height: 8px;
+  background-color: rgba(255,255,255,0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+#gemini-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #66BB6A);
+  transition: width 0.4s ease;
+  border-radius: 4px;
+}
+
+/* ===== Задача看板 ===== */
+.gemini-dashboard {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+.gemini-dashboard-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+.gemini-dashboard-row + .gemini-dashboard-row {
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.gemini-dashboard-label {
+  font-size: 12px;
+  color: #aaa;
+}
+.gemini-dashboard-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #e0e0e0;
+  font-variant-numeric: tabular-nums;
+  font-family: 'SF Mono', 'Consolas', monospace;
+}
+.gemini-dash-blue { color: #8ab4f8; }
+.gemini-dash-orange { color: #FFA726; }
+
+.gemini-dashboard .gemini-progress-bg {
+  margin-top: 8px;
+}
+
+/* 启动/停止按钮 */
+#gemini-auto-runner-btn {
+  width: 100%;
+  padding: 12px 0;
+  background: linear-gradient(135deg, #4CAF50, #43A047);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  letter-spacing: 0.3px;
+}
+#gemini-auto-runner-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76,175,80,0.3);
+}
+#gemini-auto-runner-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+#gemini-auto-runner-btn.running {
+  background: linear-gradient(135deg, #e53935, #c62828);
+}
+#gemini-auto-runner-btn.running:hover:not(:disabled) {
+  box-shadow: 0 4px 12px rgba(229,57,53,0.3);
+}
+#gemini-auto-runner-btn.completed {
+  background: linear-gradient(135deg, #616161, #424242);
+}
+
+/* 日志面板 */
+.gemini-log-container {
+  flex-shrink: 0;
+}
+
+#gemini-log-panel {
+  width: 100%;
+  height: 160px;
+  overflow-y: auto;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  padding: 8px;
+  box-sizing: border-box;
+  font-size: 11px;
+  font-family: 'SF Mono', 'Consolas', monospace;
+  line-height: 1.6;
+  color: #aaa;
+}
+
+#gemini-log-panel::-webkit-scrollbar {
+  width: 4px;
+}
+#gemini-log-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+#gemini-log-panel::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.15);
+  border-radius: 2px;
+}
+
+.gemini-log-entry {
+  margin-bottom: 2px;
+  word-break: break-all;
+}
+.gemini-log-time {
+  color: #666;
+  margin-right: 4px;
+}
+.gemini-log-success {
+  color: #66BB6A;
+}
+.gemini-log-error {
+  color: #ef5350;
+}
+.gemini-log-info {
+  color: #8ab4f8;
+}
+.gemini-log-warn {
+  color: #FFA726;
+}
+
+/* 展开按钮 */
+#gemini-open-btn {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  padding: 12px 14px;
+  background: linear-gradient(135deg, #4CAF50, #43A047);
+  color: white;
+  border: none;
+  border-radius: 8px 0 0 8px;
+  cursor: pointer;
+  z-index: 999998;
+  font-weight: 700;
+  font-size: 13px;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+  display: none;
+  transition: all 0.25s;
+  writing-mode: vertical-rl;
+  letter-spacing: 2px;
+}
+#gemini-open-btn:hover {
+  filter: brightness(1.1);
+  padding-right: 18px;
+}
+
+/* ===== Tab 切换 ===== */
+.gemini-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #444;
+}
+.gemini-tab {
+  flex: 1;
+  padding: 7px 0;
+  border: none;
+  background: #2a2a2a;
+  color: #999;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.gemini-tab:hover {
+  background: #333;
+  color: #ccc;
+}
+.gemini-tab.active {
+  background: linear-gradient(135deg, #1e88e5, #1565c0);
+  color: #fff;
+}
+
+/* Tab 内容区 */
+.gemini-tab-content {
+  display: none;
+}
+.gemini-tab-content.active {
+  display: block;
+}
+
+/* ===== 图片上传区 ===== */
+.gemini-image-upload-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 8px;
+  border: 1px dashed transparent;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.gemini-image-upload-area.dragover {
+  border-color: #4CAF50;
+  background: rgba(76, 175, 80, 0.1);
+}
+.gemini-image-select-btn {
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #43a047, #2e7d32);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s;
+  white-space: nowrap;
+}
+.gemini-image-select-btn:hover {
+  filter: brightness(1.15);
+}
+.gemini-image-count {
+  font-size: 11px;
+  color: #999;
+}
+
+/* 图片预览网格 */
+.gemini-image-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+.gemini-image-preview-item {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #444;
+  background: #222;
+}
+.gemini-image-preview-item img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+.gemini-image-name {
+  display: block;
+  font-size: 9px;
+  color: #aaa;
+  text-align: center;
+  padding: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.gemini-image-del-btn {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 16px;
+  height: 16px;
+  background: rgba(229, 57, 53, 0.85);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 11px;
+  line-height: 14px;
+  text-align: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.gemini-image-preview-item:hover .gemini-image-del-btn {
+  opacity: 1;
+}
+
+/* 图片转换按钮（复用 auto-runner-btn 样式） */
+#gemini-image-runner-btn {
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(135deg, #43a047, #2e7d32);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+#gemini-image-runner-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+#gemini-image-runner-btn.running {
+  background: linear-gradient(135deg, #e53935, #c62828);
+}
+#gemini-image-runner-btn.completed {
+  background: linear-gradient(135deg, #43a047, #2e7d32);
+}
+
+/* ===== 按钮行布局 ===== */
+.gemini-btn-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  align-items: stretch;
+}
+.gemini-btn-row #gemini-auto-runner-btn {
+  flex: 1;
+}
+
+/* ===== 暂停操作按钮容器 ===== */
+.gemini-pause-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+/* 运行中的暂停按钮（单独一个全宽按钮） */
+.gemini-running-pause-btn {
+  width: 100%;
+  padding: 12px 0;
+  background: linear-gradient(135deg, #e53935, #c62828);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  letter-spacing: 0.3px;
+  margin-bottom: 10px;
+}
+.gemini-running-pause-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(229,57,53,0.3);
+}
+.gemini-running-pause-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.gemini-resume-btn {
+  flex: 1;
+  padding: 12px 0;
+  background: linear-gradient(135deg, #4CAF50, #43A047);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  letter-spacing: 0.3px;
+}
+.gemini-resume-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76,175,80,0.3);
+}
+
+.gemini-terminate-btn {
+  flex: 1;
+  padding: 12px 0;
+  background: linear-gradient(135deg, #e53935, #c62828);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  letter-spacing: 0.3px;
+}
+.gemini-terminate-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(229,57,53,0.3);
+}
+
+/* ===== 实验模式按钮 ===== */
+.gemini-experiment-btn {
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #7B1FA2, #6A1B9A);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+.gemini-experiment-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(123,31,162,0.3);
+}
+.gemini-experiment-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.gemini-experiment-btn.running {
+  background: linear-gradient(135deg, #e53935, #c62828);
+}
+
+/* 图片转换提示词 textarea */
+.gemini-image-prompt-textarea {
+  width: 100%;
+  min-height: 80px;
+  max-height: 160px;
+  resize: vertical;
+  background-color: #2a2a3e;
+  color: #e0e0e0;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 12px;
+  font-family: inherit;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+.gemini-image-prompt-textarea:focus {
+  outline: none;
+  border-color: #1e88e5;
+}
+
+/* ===== 下载主按钮 ===== */
+.gemini-download-main-btn {
+  width: 100%;
+  padding: 12px 0;
+  background: linear-gradient(135deg, #1976D2, #0D47A1);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  letter-spacing: 0.3px;
+}
+.gemini-download-main-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+}
+.gemini-download-main-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 把Прогресс задач看板排成两列 */
+.gemini-dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 6px;
+  column-gap: 12px;
+}
+.gemini-dashboard-grid .gemini-dashboard-row {
+  margin-bottom: 0;
+  padding: 4px;
+}
+
+
+/* ===== Верхние кнопки промтов: фиксированная сетка, не уплывают ===== */
+.gemini-prompt-tools-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+}
+.gemini-prompt-tools-grid .gemini-link-btn,
+.gemini-prompt-tools-grid .gemini-style-select-wrapper,
+.gemini-prompt-tools-grid .gemini-style-select-wrapper > button {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gemini-prompt-tools-grid .gemini-style-dropdown {
+  right: 0;
+  width: min(300px, calc(var(--sidebar-width, 340px) - 32px));
+}
+
+/* ===== Сквозная нумерация слайдов ===== */
+.gemini-numbering-row {
+  gap: 8px;
+}
+.gemini-numbering-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.gemini-slide-counter-input {
+  width: 64px;
+}
+#gemini-reset-slide-counter-btn {
+  padding-left: 8px;
+  padding-right: 8px;
+}
